@@ -30,7 +30,20 @@ public class PhoneOperatorTable{
     }
 
     public double search(String token){
-        return 0.1;
+        double result = -1;
+        int length = 0;
+
+        for (PrefixCost t : costTable){
+            String prefix = t.getPrefix();
+            int i = token.indexOf(prefix);
+            int l = prefix.length();
+            if ( i == 0 && l > length ){
+                result = t.getCost();
+                length = l; 
+            }
+        }
+
+        return result;
     }
 
     private void debug(String s){
