@@ -33,29 +33,51 @@ public class PhoneOperatorTable{
         return 0.1;
     }
 
+    private void debug(String s){
+        System.out.println("[DEBUG]\t" + s);
+    }
+
     private class PrefixCost{
+
         private String prefix;
         private double cost;
+
         /*
          * Parse String in format "String<spaces/tabs>Double"
          * int prefix and cost
          */
         public PrefixCost(String s){
-            //Stub
-            setPrefix("853");
-            setCost(1.1);
+            PhoneOperatorTable.this.debug("Parsing string:" + s);
+            String[] tokenized = s.split("\t");
+            setPrefix(tokenized[0]);
+            setCost(Double.valueOf(tokenized[1]));
+            PhoneOperatorTable.this.debug("Parsing result:" + this);
         }
+
         public String getPrefix(){
             return this.prefix;
         }
+
         public double getCost(){
             return this.cost;
         }
+
         public void setPrefix(String p){
             this.prefix = p;
         }
+
         public void setCost(double c){
             this.cost = c;
         }
+
+        @Override 
+        public String toString(){
+            String result = "[INFO]"  
+                + "{prefix: " + this.prefix 
+                + ", cost: " + this.cost
+                + "}";
+            return result;
+        }
+
     } 
 } 
