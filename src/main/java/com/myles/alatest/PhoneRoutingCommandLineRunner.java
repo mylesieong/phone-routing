@@ -1,5 +1,10 @@
 package com.myles.alatest;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
+import org.joda.time.DateTime;
+
 /**
  * This is the command line entrance of this project.
  *
@@ -28,7 +33,7 @@ public class PhoneRoutingCommandLineRunner {
 
         String tableA = "";
         String tableB = "";
-        int mode;
+        int mode = TOURNAMENT_MODE;
 
         if (args.length < 5){   //There should be 5 input params
 
@@ -45,11 +50,11 @@ public class PhoneRoutingCommandLineRunner {
             }
 
             if (args[4].compareTo("-t") == 0){
-                mode = PhoneRoutingCommandLineRunner.TOURNAMENT_MODE;
+                mode = TOURNAMENT_MODE;
             }
 
             if (args[4].compareTo("-s") == 0){
-                mode = PhoneRoutingCommandLineRunner.SERVICE_MODE;
+                mode = SERVICE_MODE;
             }
 
         }else{
@@ -74,6 +79,55 @@ public class PhoneRoutingCommandLineRunner {
 
         System.out.println("Resuld A:" + resultA.toString());
         System.out.println("Resuld B:" + resultB.toString());
+
+        if (mode == TOURNAMENT_MODE){
+            List<Search> competitors = new ArrayList<Search>();
+            competitors.add(searchA);
+            competitors.add(searchB);
+            tournament(competitors);
+        }
+    }
+
+    /**
+     * Tournament method generate 1,000,000 random 20-digit number and 
+     * test the performance of specified search agents.
+     * @param List<Search> a list of competitors
+     */
+    private static void tournament(List<Search> competitors){
+        final int sampleSize = 1000000; 
+        final int sampleLengh = 20;
+        String[] tokens = new String[sampleSize];
+
+        // Generate the list of samples
+        Random r = new Random();
+        for ( int i = 0 ; i < sampleSize; i++){
+            tokens[i] = String.valueOf(r.nextInt((int)Math.pow(10, sampleLengh)));
+        }
+
+        // Search all and print the start and stop time
+        DateTime start;
+        DateTime stop;
+        long duration;
+        for (Search s : competitors){
+            start = DateTime.now();
+            for ( int i = 0; i < sampleSize; i++){
+                s.search(tokens[i]);
+            }
+            stop = DateTime.now();
+            duration = stop.getMillis() - start.getMillis();
+            echo("Competitor starts at: " + start);
+            echo("Competitor stops at:  " + stop);
+            echo("Competitor comsumes:  " + duration);
+        }
+
+    }
+
+    /**
+     * Helper function: print string to stdout
+     * @param String string to be printed
+     */
+    private static void echo(String s){
+        System.out.println(s);
     }
 
     /**
