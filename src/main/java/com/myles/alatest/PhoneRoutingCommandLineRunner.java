@@ -58,17 +58,22 @@ public class PhoneRoutingCommandLineRunner {
 
         }
 
-        PhoneOperatorTable operatorA = new PhoneOperatorTable();
-        PhoneOperatorTable operatorB = new PhoneOperatorTable();
-        operatorA.loadTable(tableA);
-        operatorB.loadTable(tableB);
+        PhoneOperatorMap operatorA = new PhoneOperatorMap();
+        PhoneOperatorMap operatorB = new PhoneOperatorMap();
+        operatorA.load(tableA);
+        operatorB.load(tableB);
+
+        BruteSearch searchA = new BruteSearch();
+        BruteSearch searchB = new BruteSearch();
+        searchA.index(operatorA);
+        searchB.index(operatorB);
 
         String token = "4673212345";
-        double resultA = operatorA.search(token);   //should be 1.1
-        double resultB = operatorB.search(token);   //should be 1.0
+        Double resultA = searchA.search(token);   //should be 1.1
+        Double resultB = searchB.search(token);   //should be 1.0
 
-        System.out.println("Resuld A:" + resultA);
-        System.out.println("Resuld B:" + resultB);
+        System.out.println("Resuld A:" + resultA.toString());
+        System.out.println("Resuld B:" + resultB.toString());
     }
 
     /**
