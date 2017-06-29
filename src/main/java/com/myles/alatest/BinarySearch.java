@@ -8,25 +8,13 @@ public class BinarySearch implements Search<String, Double>{
 
     private List<Map.Entry<String, Double>> list;
 
-    private void debugEcho(int ceiling, int index, int floor){
-        System.out.println("[DEBUG] Ceiling-" + ceiling 
-                + "Index-" + index
-                + "Floor-" + floor);
-    }
     @Override
     public Double search(String token){
         int ceiling = this.list.size() - 1;
         int floor = 0;
         int index = (floor + ceiling)/2;
 
-        
-        /*
-        int debug = 0;
-        debugEcho(ceiling, index, floor);
-        */
-        
-
-        while (ceiling != floor + 1){
+        while (index != floor){
             int c = comparePrefix(token, this.list.get(index).getKey());
             if ( c == 1 ){
                 floor = index;
@@ -38,20 +26,16 @@ public class BinarySearch implements Search<String, Double>{
                 return this.list.get(index).getValue(); 
             }
             
-            /*
-            if (debug <20){
-                debugEcho(ceiling, index, floor);
-                debug++;
-            }
-            */
-            
         }
 
-        if (index == 0){
-            return new Double(-1);
+        if (ceiling == list.size() - 1){
+            if (token.indexOf(this.list.get(ceiling).getKey())==0){
+                return this.list.get(ceiling).getValue();
+            }
         }
+
         if (token.indexOf(this.list.get(index).getKey())==0){
-            return this.list.get(index - 1).getValue(); 
+            return this.list.get(index).getValue(); 
         }else{
             return new Double(-1);
         }
