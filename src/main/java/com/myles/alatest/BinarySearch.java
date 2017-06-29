@@ -45,15 +45,23 @@ public class BinarySearch implements Search<String, Double>{
             if (list.isEmpty()){
                 list.add(t);
             }else{
+
                 String key = t.getKey();
-                for (int i = 0; i < list.size(); i++){
-                    if ( comparePrefix(key, list.get(i).getKey()) > 1){
-                        list.add(i, t);
+                int i = 0;
+
+                while (i<list.size()){
+
+                    if (comparePrefix(key, list.get(i).getKey()) == 1){
                         break;
                     }
-                }
+
+                    i++;
+                } 
+
+                list.add(i,t);
             }
         }
+
     }
 
     /**
@@ -67,14 +75,14 @@ public class BinarySearch implements Search<String, Double>{
      *             return 0 when they are same 
      *             return -1 when reverse
      */
-    private int comparePrefix(String comparatee, String comparater){
+    public int comparePrefix(String comparatee, String comparater){
         double tee = Double.parseDouble(comparatee);
-        while (tee > 1){
+        while (tee >= 1){
             tee = tee/10;
         }
 
         double ter = Double.parseDouble(comparater);
-        while (ter > 1){
+        while (ter >= 1){
             ter = ter/10;
         }
 

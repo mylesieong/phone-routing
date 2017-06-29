@@ -95,7 +95,8 @@ public class PhoneRoutingCommandLineRunner {
      * @param List<Search> a list of competitors
      */
     private static void tournament(List<Search> competitors){
-        final int sampleSize = 1000000; 
+        //final int sampleSize = 1000000; 
+        final int sampleSize = 5000; //debug
         final int sampleLengh = 20;
         String[] tokens = new String[sampleSize];
 
