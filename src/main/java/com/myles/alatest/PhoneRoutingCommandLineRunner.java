@@ -69,7 +69,8 @@ public class PhoneRoutingCommandLineRunner {
         operatorB.load(tableB);
 
         //BruteSearch searchA = new BruteSearch();
-        BinarySearch searchA = new BinarySearch();
+        //BinarySearch searchA = new BinarySearch();
+        AlphabeticSearch searchA = new AlphabeticSearch();
         BruteSearch searchB = new BruteSearch();
         searchA.index(operatorA);
         searchB.index(operatorB);
