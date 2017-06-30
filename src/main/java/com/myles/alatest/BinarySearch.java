@@ -105,6 +105,11 @@ public class BinarySearch implements Search<String, Double>{
 
         return result;
     }
+    
+    @Override
+    public void reset(){
+        this.list = null;
+    }
 
 } 
 

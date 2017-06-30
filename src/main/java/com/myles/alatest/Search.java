@@ -8,4 +8,6 @@ public interface Search<K,V>{
 
     void index(Map<K,V> map);
 
+    void reset();
+
 }

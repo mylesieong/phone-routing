@@ -129,6 +129,11 @@ public class AlphabeticSearch implements Search<String, Double>{
             return sb.toString();
         }
     }
+
+    @Override
+    public void reset(){
+        this.root = new AlphabeticNode(" ");
+    }
 } 
 
 

@@ -28,4 +28,10 @@ public class BruteSearch implements Search<String, Double>{
     public void index(Map<String, Double> map){
         this.map = map;
     }
+    
+    @Override
+    public void reset(){
+        this.map = null;
+    }
+
 } 
