@@ -136,6 +136,7 @@ public class PhoneRoutingCommandLineRunner {
             echo(searchName + " starts at: " + start);
             echo(searchName + " stops at:  " + stop);
             echo(searchName + " comsumes:  " + duration);
+            echo("---------------------------------");
         }
 
     }
