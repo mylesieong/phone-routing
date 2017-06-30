@@ -26,81 +26,92 @@ import org.joda.time.DateTime;
  */
 public class PhoneRoutingCommandLineRunner {
 
-    public final static int TOURNAMENT_MODE = 0;
-    public final static int SERVICE_MODE = 1;
-
+    public final static String TOURNAMENT_MODE = "tournament";
+    public final static String SEARCH_MODE = "search";
+    
     public static void main( String[] args ){
 
-        String tableA = "";
-        String tableB = "";
-        int mode = TOURNAMENT_MODE;
+        List<String> files = new ArrayList<String>();
+        List<String> queries = new ArrayList<String>();
+        String mode = "";
 
-        if (args.length < 5){   //There should be 5 input params
-
-            help();      
-
-        }else if (args.length == 5){
-
-            if (args[0].compareTo("-f") == 0){
-                tableA = args[1];
-            }
-
-            if (args[2].compareTo("-f") == 0){
-                tableB = args[3];
-            }
-
-            if (args[4].compareTo("-t") == 0){
-                mode = TOURNAMENT_MODE;
-            }
-
-            if (args[4].compareTo("-s") == 0){
-                mode = SERVICE_MODE;
-            }
-
-        }else{
-
+        // Parse in param: wrong input
+        if (args.length == 0) {
+            echo("Input wrong arguments");
             help();
+            return;
+        }
+
+        // Parse in param: read mode 
+        mode = args[0];
+
+        // Parse in param: read the rest of param, index starts from 1 
+        int i = 1;
+        while (i < args.length){
+
+            if (args[i].compareTo("-f") == 0){
+                files.add(args[i+1]);
+                i = i + 2;
+            }else if (args[i].compareTo("-q") == 0){
+                queries.add(args[i+1]);
+                i = i + 2;
+            }else{
+                echo("Input wrong arguments");
+                help();
+                return;
+            }
 
         }
 
-        PhoneOperatorMap operatorA = new PhoneOperatorMap();
-        PhoneOperatorMap operatorB = new PhoneOperatorMap();
-        operatorA.load(tableA);
-        operatorB.load(tableB);
+        // Invoke method according to input
+        if (mode.compareTo(TOURNAMENT_MODE) == 0){
+            if (files.size() != 1 || queries.size() != 0 ){
 
-        //BruteSearch searchA = new BruteSearch();
-        //BinarySearch searchA = new BinarySearch();
-        AlphabeticSearch searchA = new AlphabeticSearch();
-        BruteSearch searchB = new BruteSearch();
-        searchA.index(operatorA);
-        searchB.index(operatorB);
+                echo("Input wrong arguments");
+                help();
 
-        String token = "4673212345";
-        Double resultA = searchA.search(token);   //should be 1.1
-        Double resultB = searchB.search(token);   //should be 1.0
+            }else{
 
-        System.out.println("Resuld A:" + resultA.toString());
-        System.out.println("Resuld B:" + resultB.toString());
+                String file = files.get(0);
+                List<Search> searchs = new ArrayList<Search>();
 
-        if (mode == TOURNAMENT_MODE){
-            List<Search> competitors = new ArrayList<Search>();
-            competitors.add(searchA);
-            competitors.add(searchB);
-            tournament(competitors);
+                searchs.add(new BruteSearch());
+                searchs.add(new BinarySearch());
+                searchs.add(new AlphabeticSearch());
+
+                tournament(file, searchs);
+
+            }
         }
+
+        if (mode.compareTo(SEARCH_MODE) == 0){
+            if (files.size() == 0 || queries.size() == 0){
+
+                echo("Input wrong arguments");
+                help();
+
+            }else{
+
+                // use AlphabeticSearch as default
+                search(files, queries, new AlphabeticSearch());
+
+            }
+        }
+
     }
 
     /**
      * Tournament method generate 1,000,000 random 20-digit number and 
      * test the performance of specified search agents.
-     * @param List<Search> a list of competitors
+     * @param String the phone operator file name
+     * @param List<Search> a list of search agents that compete each others
      */
-    private static void tournament(List<Search> competitors){
-        final int sampleSize = 1000000; 
-        final int sampleLengh = 20;
-        String[] tokens = new String[sampleSize];
+    private static void tournament(String file, List<Search> competitors){
 
         // Generate the list of samples
+        int sampleSize = 1000000; 
+        int sampleLengh = 20;
+        String[] tokens = new String[sampleSize];
         Random r = new Random();
         for ( int i = 0 ; i < sampleSize; i++){
             tokens[i] = String.valueOf(r.nextInt((int)Math.pow(10, sampleLengh)));
@@ -110,16 +121,54 @@ public class PhoneRoutingCommandLineRunner {
         DateTime start;
         DateTime stop;
         long duration;
+        String searchName;
+        PhoneOperatorMap operator = new PhoneOperatorMap();
+        operator.load(file);
         for (Search s : competitors){
+            searchName = s.getClass().getName();
+            s.index(operator);
             start = DateTime.now();
             for ( int i = 0; i < sampleSize; i++){
                 s.search(tokens[i]);
             }
             stop = DateTime.now();
             duration = stop.getMillis() - start.getMillis();
-            echo("Competitor starts at: " + start);
-            echo("Competitor stops at:  " + stop);
-            echo("Competitor comsumes:  " + duration);
+            echo(searchName + " starts at: " + start);
+            echo(searchName + " stops at:  " + stop);
+            echo(searchName + " comsumes:  " + duration);
+        }
+
+    }
+
+    /**
+     * Search method accept a list of files and a list of queries, and
+     * search for result from every operator files for each queries and
+     * return the phone cost onto screen.
+     * @param List<String> list of files
+     * @param List<String> list of queries 
+     * @param Search selected search algorithm 
+     */
+    private static void search(List<String> files, List<String> queries, Search search){
+
+        // Prepare operators
+        List<PhoneOperatorMap> operators = new ArrayList<PhoneOperatorMap>();
+        for (String f: files){
+            PhoneOperatorMap op = new PhoneOperatorMap();
+            op.load(f);
+            op.setName(f);
+            operators.add(op);
+        }
+
+        for (String q: queries){
+            Double result;
+            echo("Search " + q + " in input operators:");
+            for (PhoneOperatorMap op: operators){
+                search.reset();
+                search.index(op);
+                result = (Double)search.search(q);
+                echo("  In operator " + op.getName() + ", cost is " + result.toString());
+            }
+            echo("------------------------------------");
         }
 
     }
