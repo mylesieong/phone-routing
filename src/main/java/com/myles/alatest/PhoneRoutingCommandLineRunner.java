@@ -76,7 +76,6 @@ public class PhoneRoutingCommandLineRunner {
                 List<Search> searchs = new ArrayList<Search>();
 
                 searchs.add(new BruteSearch());
-                searchs.add(new BinarySearch());
                 searchs.add(new AlphabeticSearch());
 
                 tournament(file, searchs);
@@ -194,7 +193,7 @@ public class PhoneRoutingCommandLineRunner {
 "" +"\n" +
 "MODE:       Two working mode is available. They are: tournament and search." +"\n" +
 "" +"\n" +
-"            Tournament mode will launch a performance comparison among 3 search" +"\n" +
+"            Tournament mode will launch a performance comparison among 2 search" +"\n" +
 "            algorithm implementation based on same operator file and 1,000,000" +"\n" +
 "            random generated numbers. Note that tournament mode only accepts one" +"\n" +
 "            set of <file-args>." +"\n" +

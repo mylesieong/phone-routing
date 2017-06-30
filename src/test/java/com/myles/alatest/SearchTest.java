@@ -36,11 +36,7 @@ public class SearchTest extends TestCase
         Search brutes = new BruteSearch();
         brutes.index(map);
         searches.add(brutes);
-        
-        Search binarys = new BinarySearch();
-        binarys.index(map);
-        searches.add(binarys);
-        
+
         Search alphas = new AlphabeticSearch();
         alphas.index(map);
         searches.add(alphas);

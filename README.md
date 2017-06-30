@@ -1,6 +1,6 @@
 # Phone Routing Problem Solving
 
-Problem description is provided in `problem_description.txt`. In order to solve the problem, 3 search algorithms is implemented in this project shared the same interface `Search`. 
+Problem description is provided in `problem_description.txt`. In order to solve the problem, 2 search algorithms is implemented in this project shared the same interface `Search`. 
 
 There is also a command line tools provided in this project. For usage, please refers to the *Command Line Options* part  
 
@@ -41,17 +41,13 @@ Search 8810233 in input operators:
 ------------------------------------
 ```
 
-1. To launch an interesting tournament among 3 search algorithms, run command as below example:
+1. To launch an interesting tournament among 2 search algorithms, run command as below example:
 
 ```
 $ java -cp target/phone-routing-1.0-SNAPSHOT.jar com.myles.alatest.PhoneRoutingCommandLineRunner tournament -f countryprefix.txt
 com.myles.alatest.BruteSearch starts at: 2017-06-30T11:07:28.785+08:00
 com.myles.alatest.BruteSearch stops at:  2017-06-30T11:07:42.094+08:00
 com.myles.alatest.BruteSearch comsumes:  13309
-------------------------------------
-com.myles.alatest.BinarySearch starts at: 2017-06-30T11:07:42.109+08:00
-com.myles.alatest.BinarySearch stops at:  2017-06-30T11:07:44.403+08:00
-com.myles.alatest.BinarySearch comsumes:  2294
 ------------------------------------
 com.myles.alatest.AlphabeticSearch starts at: 2017-06-30T11:07:44.403+08:00
 com.myles.alatest.AlphabeticSearch stops at:  2017-06-30T11:07:44.808+08:00
@@ -71,7 +67,7 @@ SYNOPSIS:   java com.myles.alatest.PhoneRoutingCommandLineRunner <mode> <file-ar
 
 MODE:       Two working mode is available. They are: tournament and search. 
 
-            Tournament mode will launch a performance comparison among 3 search 
+            Tournament mode will launch a performance comparison among 2 search 
             algorithm implementation based on same operator file and 1,000,000 
             random generated numbers. Note that tournament mode only accepts one 
             set of <file-args>.
@@ -93,7 +89,7 @@ EXAMPLE:
 *   To search the cost of number 4656311335 in operator_a and operator_b:
     java com.myles.alatest.PhoneRoutingCommandLineRunner search -f operator_a.txt -f operator_b.txt -q 4656311335 
 
-*   To launch an tournament among 3 search algorithms based on operator_x:
+*   To launch an tournament among 2 search algorithms based on operator_x:
     java com.myles.alatest.PhoneRoutingCommandLineRunner tournament -f operator_x.txt
 ```
     
@@ -114,8 +110,6 @@ Double result = cs.search(searchString);
 ## Algorithm Implementations in this Project
 
 * BruteSearch: Read the input file and store as list. Search query number with iterating all elements in the list.
-
-* BinarySearch: Read the input file and store as a sorted list. Perform binary search with query number.
 
 * AlphabeticSearch: Parse input map into a tree structure with every tree node represent a digit. Travel the tree from root to leave according to query number.
     
