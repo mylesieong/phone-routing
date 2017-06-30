@@ -8,6 +8,16 @@ import java.nio.charset.Charset;
 
 public class PhoneOperatorMap extends HashMap<String, Double>{
 
+    private String operationName;
+
+    public void setName(String name){
+        this.operationName = name;
+    }
+
+    public String getName(){
+        return this.operationName;
+    }
+
     public void load(String path){
         try {
             BufferedReader reader = Files.newBufferedReader(Paths.get(path), Charset.defaultCharset());
