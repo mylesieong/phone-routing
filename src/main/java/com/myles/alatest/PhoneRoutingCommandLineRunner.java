@@ -186,7 +186,39 @@ public class PhoneRoutingCommandLineRunner {
      * Show help of Phone Routing Command Line Runner
      */
     private static void help(){
-        System.out.println("Help guide.");
+        String help =  
+"NAME:       Phone Routing Problem Command Line Runner" +"\n" +
+"" +"\n" +
+"SYNOPSIS:   java com.myles.alatest.PhoneRoutingCommandLineRunner <mode> <file-args>" +"\n" +
+"            [<file-args>] [<query-args>]" +"\n" +
+"" +"\n" +
+"MODE:       Two working mode is available. They are: tournament and search." +"\n" +
+"" +"\n" +
+"            Tournament mode will launch a performance comparison among 3 search" +"\n" +
+"            algorithm implementation based on same operator file and 1,000,000" +"\n" +
+"            random generated numbers. Note that tournament mode only accepts one" +"\n" +
+"            set of <file-args>." +"\n" +
+"" +"\n" +
+"            Search mode will search through a given list of operators for each" +"\n" +
+"            queries. Note that search mode accepts at least one set of <file-args>" +"\n" +
+"            and at least one set of <query-args>." +"\n" +
+"" +"\n" +
+"ARGGS:      <file-args> composes an identifier '-f' followed by a path to an operator" +"\n" +
+"            file. The operator file should contains a list of lines of prefix-cost" +"\n" +
+"            pairs by which should be separated by a <tab> character between the prefix" +"\n" +
+"            and the cost." +"\n" +
+"" +"\n" +
+"            <query-args> composes an identifier '-q' followed by a number to be" +"\n" +
+"            searched." +"\n" +
+"" +"\n" +
+"EXAMPLE:" +"\n" +
+"" +"\n" +
+"*   To search the cost of number 4656311335 in operator_a and operator_b:" +"\n" +
+"    java com.myles.alatest.PhoneRoutingCommandLineRunner search -f operator_a.txt -f operator_b.txt -q 4656311335" +"\n" +
+"" +"\n" +
+"*   To launch an tournament among 3 search algorithms based on operator_x:" +"\n" +
+"    java com.myles.alatest.PhoneRoutingCommandLineRunner tournament -f operator_x.txt";
+        System.out.println(help);
     }
 
 }

@@ -59,6 +59,8 @@ com.myles.alatest.AlphabeticSearch comsumes:  405
 ------------------------------------
 ```
 
+1. To load the help page, simply pass no input parameters.
+
 ## Command Line Options
 
 ```
