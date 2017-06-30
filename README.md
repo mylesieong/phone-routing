@@ -2,7 +2,9 @@
 
 Problem description is provided in `problem_description.txt`. In order to solve the problem, 2 search algorithms is implemented in this project shared the same interface `Search`. 
 
-There is also a command line tools provided in this project. For usage, please refers to the *Command Line Options* part  
+There is also a command line tools provided in this project. For usage, please refers to the *Command Line Options* part.
+
+If you need samples of operator file, 3 txt files with initial 'operator_' is at the project root.
 
 ## Prequisite for build
 
@@ -87,7 +89,8 @@ ARGGS:      <file-args> composes an identifier '-f' followed by a path to an ope
 EXAMPLE:    
 
 *   To search the cost of number 4656311335 in operator_a and operator_b:
-    java com.myles.alatest.PhoneRoutingCommandLineRunner search -f operator_a.txt -f operator_b.txt -q 4656311335 
+    java com.myles.alatest.PhoneRoutingCommandLineRunner search -f operator_a.txt -f 
+    operator_b.txt -q 4656311335 
 
 *   To launch an tournament among 2 search algorithms based on operator_x:
     java com.myles.alatest.PhoneRoutingCommandLineRunner tournament -f operator_x.txt
